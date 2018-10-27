@@ -13,7 +13,7 @@ while True:
     try:
         print('connection from', client_address)
         while True:
-            data = connection.recv(16)
+            data = connection.recv(128)
             print('received %s' % data)
             if data:
                 print('sending data back to client')

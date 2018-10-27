@@ -1,6 +1,22 @@
 var express = require('express')
 var app = express()
 var net = require('net')
+var multer = require('multer')
+
+var filename
+
+var upload = multer({
+    storage: multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, './uploads/')
+        },
+        filename: function (req, file, cb) {
+            var ext = require('path').extname(file.originalname)
+            filename = file.fieldname + '-' + Date.now() + ext
+            cb(null, filename)
+        }
+    })
+})
 
 var uploadform = require('./routes/uploadform.js')
 
@@ -9,24 +25,19 @@ app.set('views', './views')
 
 app.use('/classify', uploadform)
 
-app.post('/classify', (req, res) => {
-    //classify image
-    res.send('classified')
-});
-
-app.get('/test', (req, res) => {
+app.post('/classify', upload.single('image'), function (req, res) {
     var client = new net.Socket()
     client.connect(10000, '127.0.0.1', () => {
         console.log('connected')
-        client.write('ask server')
+        client.write(filename)
     })
     client.on('data', (data) => {
         console.log(`received ${data}`)
+        res.send('data received from python code')
         client.destroy()
     })
     client.on('close', () => {
         console.log('connection closed')
-        res.send('successful python serve call')
     })
 })
 
