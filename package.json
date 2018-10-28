@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/khnshn/kerasdeepapi.git"
+    "url": "git+https://github.com/khnshn/keras-deep-api.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/khnshn/kerasdeepapi/issues"
+    "url": "https://github.com/khnshn/keras-deep-api/issues"
   },
-  "homepage": "https://github.com/khnshn/kerasdeepapi#readme",
+  "homepage": "https://github.com/khnshn/keras-deep-api#readme",
   "dependencies": {
     "express": "^4.16.4",
     "multer": "^1.4.1",
