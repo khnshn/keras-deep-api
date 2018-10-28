@@ -7,10 +7,10 @@ var filename
 
 var upload = multer({
     storage: multer.diskStorage({
-        destination: function (req, file, cb) {
+        destination: (req, file, cb) => {
             cb(null, './uploads/')
         },
-        filename: function (req, file, cb) {
+        filename: (req, file, cb) => {
             var ext = require('path').extname(file.originalname)
             filename = file.fieldname + '-' + Date.now() + ext
             cb(null, filename)
@@ -25,7 +25,7 @@ app.set('views', './views')
 
 app.use('/classify', uploadform)
 
-app.post('/classify', upload.single('image'), function (req, res) {
+app.post('/classify', upload.single('image'), (req, res) => {
     var client = new net.Socket()
     client.connect(10000, '127.0.0.1', () => {
         console.log('connected')
@@ -33,7 +33,7 @@ app.post('/classify', upload.single('image'), function (req, res) {
     })
     client.on('data', (data) => {
         console.log(`received ${data}`)
-        res.send('data received from python code')
+        res.send(data.toString('utf8'))
         client.destroy()
     })
     client.on('close', () => {
